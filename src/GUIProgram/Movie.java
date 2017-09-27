@@ -50,8 +50,8 @@ public class Movie implements ActionListener {
     @Override
     public String toString() {
         return  "Movie: " + getMovie() +
-                "Genre: " + getGenre() +
-                "Year: " + getYear();
+                " Genre: " + getGenre() +
+                " Year: " + getYear();
     }
 
     public String getName() {

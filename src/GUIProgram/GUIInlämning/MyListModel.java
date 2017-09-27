@@ -1,5 +1,7 @@
 package GUIProgram.GUIInlämning;
 
+import GUIProgram.Movie;
+
 import javax.swing.*;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
@@ -37,8 +39,8 @@ public class MyListModel<T> implements ListModel<T> {
         }
     }
 
-    public void add(T o) {
-        listItems.add(o);
+    public void add(Movie o) {
+        listItems.add((T) o);
         for (ListDataListener l : listener ) {
             l.intervalAdded(new ListDataEvent(this,ListDataEvent.INTERVAL_ADDED,listItems.size()-1,listItems.size()-1));
         }
@@ -48,6 +50,14 @@ public class MyListModel<T> implements ListModel<T> {
         listItems.remove(index);
         for (ListDataListener l : listener ) {
             l.intervalRemoved(new ListDataEvent(this,ListDataEvent.INTERVAL_REMOVED,index, index));
+        }
+    }
+
+    public void clear() {
+        int size = listItems.size();
+        listItems.clear();
+        for (ListDataListener l : listener ) {
+            l.intervalRemoved(new ListDataEvent(this,ListDataEvent.INTERVAL_REMOVED,0, size));
         }
     }
 }

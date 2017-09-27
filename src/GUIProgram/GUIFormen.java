@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.*;
 
 public class GUIFormen extends JFrame {
     private JButton läggtill;
@@ -32,8 +33,32 @@ public class GUIFormen extends JFrame {
 
         JMenuItem save = new JMenuItem("Save");
         menu.add(save);
-        JMenuItem load = new JMenuItem("Load");
+        save.getAccessibleContext().setAccessibleDescription(
+                "Save to file");
+        save.setAccelerator(KeyStroke.getKeyStroke(
+                KeyEvent.VK_S, ActionEvent.CTRL_MASK));
+        menu.add(save);
+
+        //save.addActionListener(e -> saveFile());
+        save.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                saveFile();
+            }
+        });
+
+
+
+
+
+
+        /*JMenuItem load = new JMenuItem("Load");
         menu.add(load);
+        load.getAccessibleContext().setAccessibleDescription("Load to file");
+        menu.add(load);
+        load.addActionListener(this::openFile);*/
+
+
         JMenuItem exit = new JMenuItem("Exit");
         menu.add(exit);
 
@@ -89,15 +114,30 @@ public class GUIFormen extends JFrame {
                 m.setName(name);
                 m.setGenre(genre);
                 m.setYear(year);
-
+                list1.repaint();
 
             }
         });
 
     }
 
-    public void quitProgram (ActionEvent e) {
-        System.exit(0);
+    public void saveFile(){
+        final JFileChooser fc = new JFileChooser();
+
+        try {
+            FileOutputStream fileOut =
+                    new FileOutputStream("/tmp/employee.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            for (int i = 0; i < myListModel.getSize(); i++) {
+                out.writeObject(myListModel.getElementAt(i));
+            }
+            out.close();
+            fileOut.close();
+            System.out.printf("Serialized data is saved in /tmp/employee.ser");
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+
     }
 
 

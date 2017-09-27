@@ -1,3 +1,4 @@
+/*
 package Gui;
 
 import GUIProgram.GUIInlämning.MyListModel;
@@ -85,3 +86,4 @@ public class GUIExempel {
         });
     }
 }
+*/
