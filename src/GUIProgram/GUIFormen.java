@@ -21,6 +21,7 @@ public class GUIFormen extends JFrame {
     private MyListModel<Movie> myListModel;
     private JMenuBar menuBar;
     private static JFrame frame;
+    OutputStream fileOut;
 
     public GUIFormen() {
 
@@ -121,24 +122,45 @@ public class GUIFormen extends JFrame {
 
     }
 
-    public void saveFile(){
-        final JFileChooser fc = new JFileChooser();
+    public void saveFile() {
 
         try {
-            FileOutputStream fileOut =
-                    new FileOutputStream("/tmp/employee.ser");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            for (int i = 0; i < myListModel.getSize(); i++) {
-                out.writeObject(myListModel.getElementAt(i));
+            JFileChooser fc = new JFileChooser();
+
+            int returnVal = fc.showSaveDialog(null);
+
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                FileOutputStream fileOut =
+                        new FileOutputStream(fc.getSelectedFile());
+
+                ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                for (int i = 0; i < myListModel.getSize(); i++) {
+                    out.writeObject(myListModel.getElementAt(i));
+                }
+                out.close();
+                fileOut.close();
+                System.out.printf("Serialized data is saved in " + fileOut);
             }
-            out.close();
-            fileOut.close();
-            System.out.printf("Serialized data is saved in /tmp/employee.ser");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException i) {
             i.printStackTrace();
         }
-
     }
+
+
+
+    /*try {
+        FileOutputStream fileOut =
+                new FileOutputStream("/tmp/employee.ser");
+        ObjectOutputStream out = new ObjectOutputStream(fileOut);
+        out.writeObject(e);
+        out.close();
+        fileOut.close();
+        System.out.printf("Serialized data is saved in /tmp/employee.ser");
+    }catch(IOException i) {
+        i.printStackTrace();
+    }*/
 
 
     public static void main(String[] args) {

@@ -3,8 +3,9 @@ package GUIProgram;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 
-public class Movie implements ActionListener {
+public class Movie implements ActionListener, Serializable {
     private String name;
     private String genre;
     private int year;
