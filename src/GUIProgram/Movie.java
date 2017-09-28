@@ -16,14 +16,6 @@ public class Movie implements ActionListener, Serializable {
         this.year = year;
     }
 
-    /*public Movie(String name, String genre, int year){
-        this.setMovie(name);
-        this.setGenre(genre);
-        this.setYear(year);
-    }*/
-
-
-
     public String getMovie() {
         return getName();
     }

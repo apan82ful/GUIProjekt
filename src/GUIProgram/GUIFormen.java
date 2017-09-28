@@ -84,13 +84,9 @@ public class GUIFormen extends JFrame {
             }
         });
 
-
         myListModel = new MyListModel<>();
         list1.setModel(myListModel);
         list1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-
-
 
         läggtill.addActionListener(new ActionListener() {
             @Override
@@ -126,14 +122,14 @@ public class GUIFormen extends JFrame {
             }
         });
 
+        //För att tabort knappen skall vara släckt om man inte markerat en film
         list1.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                if(e.getValueIsAdjusting() == false){
-                    if(list1.getSelectedIndex() == -1){
+                if (e.getValueIsAdjusting() == false) {
+                    if (list1.getSelectedIndex() == -1) {
                         taBortButton.setEnabled(false);
-                    }
-                    else
+                    } else
                         taBortButton.setEnabled(true);
                 }
 
@@ -158,15 +154,31 @@ public class GUIFormen extends JFrame {
                 keyEnable();
             }
         });
+
+        list1.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (e.getValueIsAdjusting() == false) {
+                    if (list1.getSelectedIndex() == -1) {
+                        ändraButton.setEnabled(false);
+                    } else
+                        ändraButton.setEnabled(true);
+                }
+            }
+        });
     }
 
     private void loadFile() {
-        Movie m = null;
-        try {
+        //Movie m = null;
+
+        new Thread(() -> {
+        //Skall jag ha med allt i nya tråden?
+            try {
             JFileChooser fc = new JFileChooser();
             int returnVal = fc.showOpenDialog(frame);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 FileInputStream fileIn = new FileInputStream(fc.getSelectedFile());
+
                 ObjectInputStream in = new ObjectInputStream(fileIn);
 
                 myListModel = (MyListModel<Movie>) in.readObject();
@@ -182,12 +194,13 @@ public class GUIFormen extends JFrame {
             System.out.println("File not found");
             c.printStackTrace();
             return;
-
         }
+
+        }).start();
     }
 
-
     public void saveFile() {
+        new Thread(()->{
 
         try {
             JFileChooser fc = new JFileChooser();
@@ -195,6 +208,8 @@ public class GUIFormen extends JFrame {
             int returnVal = fc.showSaveDialog(null);
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
+
+
                 FileOutputStream fileOut =
                         new FileOutputStream(fc.getSelectedFile());
 
@@ -210,19 +225,21 @@ public class GUIFormen extends JFrame {
             e.printStackTrace();
         } catch (IOException i) {
             i.printStackTrace();
+
         }
+        }).start();
+
     }
 
-    public void keyEnable(){
-        if(textField1.getText().length() == 0 || textField2.getText().length() == 0 ||
-                textField3.getText().length() == 0){
+    public void keyEnable() {
+        if (textField1.getText().length() == 0 || textField2.getText().length() == 0 ||
+                textField3.getText().length() == 0) {
             läggtill.setEnabled(false);
-        }
-        else{
+        } else {
             läggtill.setEnabled(true);
         }
-    }
 
+    }
 
     public static void main(String[] args) {
 
@@ -237,7 +254,5 @@ public class GUIFormen extends JFrame {
         });
     }
 }
-/*
-crud
- */
+
 
