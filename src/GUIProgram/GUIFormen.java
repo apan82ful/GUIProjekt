@@ -26,7 +26,7 @@ public class GUIFormen extends JFrame {
     private JMenuBar menuBar;
     private static JFrame frame;
     OutputStream fileOut;
-
+//
     public GUIFormen() {
 
         menuBar = new JMenuBar();
