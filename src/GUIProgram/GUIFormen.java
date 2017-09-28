@@ -1,11 +1,15 @@
 package GUIProgram;
 
 import GUIProgram.GUIInlämning.MyListModel;
+import javafx.beans.binding.BooleanBinding;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.*;
 
@@ -86,6 +90,8 @@ public class GUIFormen extends JFrame {
         list1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 
+
+
         läggtill.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -120,6 +126,38 @@ public class GUIFormen extends JFrame {
             }
         });
 
+        list1.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if(e.getValueIsAdjusting() == false){
+                    if(list1.getSelectedIndex() == -1){
+                        taBortButton.setEnabled(false);
+                    }
+                    else
+                        taBortButton.setEnabled(true);
+                }
+
+            }
+        });
+        textField1.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                keyEnable();
+
+            }
+        });
+        textField2.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                keyEnable();
+            }
+        });
+        textField3.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                keyEnable();
+            }
+        });
     }
 
     private void loadFile() {
@@ -172,6 +210,16 @@ public class GUIFormen extends JFrame {
             e.printStackTrace();
         } catch (IOException i) {
             i.printStackTrace();
+        }
+    }
+
+    public void keyEnable(){
+        if(textField1.getText().length() == 0 || textField2.getText().length() == 0 ||
+                textField3.getText().length() == 0){
+            läggtill.setEnabled(false);
+        }
+        else{
+            läggtill.setEnabled(true);
         }
     }
 
