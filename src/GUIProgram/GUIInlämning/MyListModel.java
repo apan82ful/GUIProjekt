@@ -5,12 +5,17 @@ import GUIProgram.Movie;
 import javax.swing.*;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MyListModel<T> implements ListModel<T> {
+public class MyListModel<T> implements ListModel<T>, Serializable{
+
+    public MyListModel(){
+
+    }
 
     ArrayList<T> listItems = new ArrayList<>();
-    ArrayList<ListDataListener> listener = new ArrayList<>();
+    transient ArrayList<ListDataListener> listener = new ArrayList<>();
 
     @Override
     public int getSize() {
@@ -24,6 +29,10 @@ public class MyListModel<T> implements ListModel<T> {
 
     @Override
     public void addListDataListener(ListDataListener l) {
+        if(listener == null){
+            listener = new ArrayList<>();
+        }
+
         listener.add(l);
     }
 

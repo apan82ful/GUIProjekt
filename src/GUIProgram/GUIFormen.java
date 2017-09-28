@@ -34,8 +34,7 @@ public class GUIFormen extends JFrame {
 
         JMenuItem save = new JMenuItem("Save");
         menu.add(save);
-        save.getAccessibleContext().setAccessibleDescription(
-                "Save to file");
+        save.getAccessibleContext().setAccessibleDescription("Save to file");
         save.setAccelerator(KeyStroke.getKeyStroke(
                 KeyEvent.VK_S, ActionEvent.CTRL_MASK));
         menu.add(save);
@@ -48,16 +47,17 @@ public class GUIFormen extends JFrame {
             }
         });
 
-
-
-
-
-
-        /*JMenuItem load = new JMenuItem("Load");
+        JMenuItem load = new JMenuItem("Load");
         menu.add(load);
         load.getAccessibleContext().setAccessibleDescription("Load to file");
         menu.add(load);
-        load.addActionListener(this::openFile);*/
+
+        load.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadFile();
+            }
+        });
 
 
         JMenuItem exit = new JMenuItem("Exit");
@@ -122,6 +122,33 @@ public class GUIFormen extends JFrame {
 
     }
 
+    private void loadFile() {
+        Movie m = null;
+        try {
+            JFileChooser fc = new JFileChooser();
+            int returnVal = fc.showOpenDialog(frame);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                FileInputStream fileIn = new FileInputStream(fc.getSelectedFile());
+                ObjectInputStream in = new ObjectInputStream(fileIn);
+
+                myListModel = (MyListModel<Movie>) in.readObject();
+                list1.setModel(myListModel);
+
+                in.close();
+                fileIn.close();
+            }
+        } catch (IOException i) {
+            i.printStackTrace();
+            return;
+        } catch (ClassNotFoundException c) {
+            System.out.println("File not found");
+            c.printStackTrace();
+            return;
+
+        }
+    }
+
+
     public void saveFile() {
 
         try {
@@ -134,9 +161,9 @@ public class GUIFormen extends JFrame {
                         new FileOutputStream(fc.getSelectedFile());
 
                 ObjectOutputStream out = new ObjectOutputStream(fileOut);
-                for (int i = 0; i < myListModel.getSize(); i++) {
-                    out.writeObject(myListModel.getElementAt(i));
-                }
+
+                out.writeObject(myListModel);
+
                 out.close();
                 fileOut.close();
                 System.out.printf("Serialized data is saved in " + fileOut);
@@ -147,20 +174,6 @@ public class GUIFormen extends JFrame {
             i.printStackTrace();
         }
     }
-
-
-
-    /*try {
-        FileOutputStream fileOut =
-                new FileOutputStream("/tmp/employee.ser");
-        ObjectOutputStream out = new ObjectOutputStream(fileOut);
-        out.writeObject(e);
-        out.close();
-        fileOut.close();
-        System.out.printf("Serialized data is saved in /tmp/employee.ser");
-    }catch(IOException i) {
-        i.printStackTrace();
-    }*/
 
 
     public static void main(String[] args) {
