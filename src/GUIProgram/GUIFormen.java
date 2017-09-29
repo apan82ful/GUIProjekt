@@ -13,6 +13,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.*;
 
+import static sun.jvm.hotspot.runtime.PerfMemory.start;
+
 public class GUIFormen extends JFrame {
     private JButton läggtill;
     private JPanel panel1;
@@ -171,65 +173,72 @@ public class GUIFormen extends JFrame {
     private void loadFile() {
         //Movie m = null;
 
-        new Thread(() -> {
+
         //Skall jag ha med allt i nya tråden?
-            try {
-            JFileChooser fc = new JFileChooser();
-            int returnVal = fc.showOpenDialog(frame);
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                FileInputStream fileIn = new FileInputStream(fc.getSelectedFile());
 
-                ObjectInputStream in = new ObjectInputStream(fileIn);
+        JFileChooser fc = new JFileChooser();
+        int returnVal = fc.showOpenDialog(frame);
 
-                myListModel = (MyListModel<Movie>) in.readObject();
-                list1.setModel(myListModel);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            new Thread(() -> {
+                try {
+                    FileInputStream fileIn = new FileInputStream(fc.getSelectedFile());
 
-                in.close();
-                fileIn.close();
-            }
-        } catch (IOException i) {
-            i.printStackTrace();
-            return;
-        } catch (ClassNotFoundException c) {
-            System.out.println("File not found");
-            c.printStackTrace();
-            return;
+                    ObjectInputStream in = new ObjectInputStream(fileIn);
+
+                    myListModel = (MyListModel<Movie>) in.readObject();
+                    //invoke later
+                    list1.setModel(myListModel);
+
+                    in.close();
+                    fileIn.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+
+            }).start();
         }
-
-        }).start();
     }
+
 
     public void saveFile() {
-        new Thread(()->{
 
-        try {
-            JFileChooser fc = new JFileChooser();
+        JFileChooser fc = new JFileChooser();
 
-            int returnVal = fc.showSaveDialog(null);
+        int returnVal = fc.showSaveDialog(null);
 
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            new Thread(() -> {
+
+                try {
+
+                    FileOutputStream fileOut =
+                            new FileOutputStream(fc.getSelectedFile());
+
+                    ObjectOutputStream out = new ObjectOutputStream(fileOut);
+
+                    out.writeObject(myListModel);
+
+                    out.close();
+                    fileOut.close();
+                    System.out.printf("Serialized data is saved in " + fileOut);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
 
-                FileOutputStream fileOut =
-                        new FileOutputStream(fc.getSelectedFile());
-
-                ObjectOutputStream out = new ObjectOutputStream(fileOut);
-
-                out.writeObject(myListModel);
-
-                out.close();
-                fileOut.close();
-                System.out.printf("Serialized data is saved in " + fileOut);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException i) {
-            i.printStackTrace();
+            }).start();
 
         }
-        }).start();
-
     }
+
 
     public void keyEnable() {
         if (textField1.getText().length() == 0 || textField2.getText().length() == 0 ||
