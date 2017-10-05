@@ -8,14 +8,15 @@ import javax.swing.event.ListDataListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MyListModel<T> implements ListModel<T>, Serializable{
+public class MyListModel<T> implements ListModel<T>, Serializable {
 
-    public MyListModel(){
+    public MyListModel() {
 
     }
 
     ArrayList<T> listItems = new ArrayList<>();
     transient ArrayList<ListDataListener> listener = new ArrayList<>();
+
 
     @Override
     public int getSize() {
@@ -29,7 +30,7 @@ public class MyListModel<T> implements ListModel<T>, Serializable{
 
     @Override
     public void addListDataListener(ListDataListener l) {
-        if(listener == null){
+        if (listener == null) {
             listener = new ArrayList<>();
         }
 
@@ -43,30 +44,33 @@ public class MyListModel<T> implements ListModel<T>, Serializable{
 
     public void update(int index, T o) {
         listItems.set(index, o);
-        for (ListDataListener l : listener ) {
-            l.contentsChanged(new ListDataEvent(this,ListDataEvent.CONTENTS_CHANGED,index,index));
+        for (ListDataListener l : listener) {
+            l.contentsChanged(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, index, index));
         }
     }
 
     public void add(Movie o) {
         listItems.add((T) o);
-        for (ListDataListener l : listener ) {
-            l.intervalAdded(new ListDataEvent(this,ListDataEvent.INTERVAL_ADDED,listItems.size()-1,listItems.size()-1));
+        for (ListDataListener l : listener) {
+            l.intervalAdded(new ListDataEvent(this, ListDataEvent.INTERVAL_ADDED, listItems.size() - 1, listItems.size() - 1));
         }
     }
 
-    public void remove(int index){
+    public void remove(int index) {
         listItems.remove(index);
-        for (ListDataListener l : listener ) {
-            l.intervalRemoved(new ListDataEvent(this,ListDataEvent.INTERVAL_REMOVED,index, index));
+        for (ListDataListener l : listener) {
+            l.intervalRemoved(new ListDataEvent(this, ListDataEvent.INTERVAL_REMOVED, index, index));
         }
     }
 
     public void clear() {
         int size = listItems.size();
         listItems.clear();
-        for (ListDataListener l : listener ) {
-            l.intervalRemoved(new ListDataEvent(this,ListDataEvent.INTERVAL_REMOVED,0, size));
+        for (ListDataListener l : listener) {
+            l.intervalRemoved(new ListDataEvent(this, ListDataEvent.INTERVAL_REMOVED, 0, size));
         }
     }
+
+
+
 }

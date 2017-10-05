@@ -1,19 +1,16 @@
 package GUIProgram;
 
 import GUIProgram.GUIInlämning.MyListModel;
-import javafx.beans.binding.BooleanBinding;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.io.*;
-
-import static sun.jvm.hotspot.runtime.PerfMemory.start;
 
 public class GUIFormen extends JFrame {
     private JButton läggtill;
@@ -24,10 +21,15 @@ public class GUIFormen extends JFrame {
     private JTextField textField2;
     private JList<Movie> list1;
     private JTextField textField3;
+    private JButton searchMovieButton;
+    private JTextField textField4;
+    private JLabel JLabel1;
+    private JButton SearchButton;
     private MyListModel<Movie> myListModel;
     private JMenuBar menuBar;
     private static JFrame frame;
     OutputStream fileOut;
+
 //
     public GUIFormen() {
 
@@ -168,14 +170,43 @@ public class GUIFormen extends JFrame {
                 }
             }
         });
+
+        searchMovieButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                JLabel1.setText("You search for: " + textField4.getText());
+            }
+        });
+
+        textField4.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    JLabel1.setText("You search for: " + textField4.getText());
+                }
+            }
+        });
+
+
+        textField4.addKeyListener(new KeyAdapter() {
+            private int fieldLength = 0;
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                //if (fieldLength > textField4.getText().length()){
+                //    list1.setModel(myListModel);
+
+
+                //}
+            }
+
+
+        });
+
     }
 
     private void loadFile() {
-        //Movie m = null;
-
-
-        //Skall jag ha med allt i nya tråden?
-
         JFileChooser fc = new JFileChooser();
         int returnVal = fc.showOpenDialog(frame);
 
@@ -249,6 +280,8 @@ public class GUIFormen extends JFrame {
         }
 
     }
+
+
 
     public static void main(String[] args) {
 
