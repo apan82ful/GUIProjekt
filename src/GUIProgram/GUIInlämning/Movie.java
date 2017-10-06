@@ -1,34 +1,65 @@
 package GUIProgram.GUIInlämning;
 
-import GUIProgram.GUIFormen;
-
-import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.Serializable;
 
-public class Movie extends JFrame {
-    private JList list1;
-    private JTextField textField1;
-    private JTextField textField2;
-    private JButton ändraButton;
-    private JButton läggTillButton;
-    private JButton taBortButton;
+public class Movie implements ActionListener, Serializable {
+    private String name;
+    private String genre;
+    private int year;
 
-    public Movie(){
+    public Movie(String name, String genre, int year){
+        this.name = name;
+        this.genre = genre;
+        this.year = year;
+    }
 
+    public String getMovie() {
+        return getName();
+    }
+
+    public void setMovie(String movie) {
+        this.setName(movie);
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    @Override
+    public String toString() {
+        return  "MovieEj: " + getMovie() +
+                " Genre: " + getGenre() +
+                " Year: " + getYear();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 
-    public static void main(String[] args) {
+    @Override
+    public void actionPerformed(ActionEvent e) {
 
-        EventQueue.invokeLater(() -> {
-            JFrame frame = new JFrame("GUIMovie");
-            frame.setContentPane(new Movie().rootPane);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(new Dimension(800,600));
-            frame.setVisible(true);
-
-
-
-        });
     }
 }
+
+

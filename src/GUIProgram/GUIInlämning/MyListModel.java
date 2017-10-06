@@ -1,20 +1,17 @@
 package GUIProgram.GUIInlämning;
 
-import GUIProgram.Movie;
-
-import javax.swing.*;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MyListModel<T> implements ListModel<T>, Serializable {
+public class MyListModel implements IMyListModel, Serializable {
 
     public MyListModel() {
 
     }
 
-    ArrayList<T> listItems = new ArrayList<>();
+    ArrayList<Movie> listItems = new ArrayList<>();
     transient ArrayList<ListDataListener> listener = new ArrayList<>();
 
 
@@ -24,7 +21,7 @@ public class MyListModel<T> implements ListModel<T>, Serializable {
     }
 
     @Override
-    public T getElementAt(int index) {
+    public Movie getElementAt(int index) {
         return listItems.get(index);
     }
 
@@ -42,7 +39,7 @@ public class MyListModel<T> implements ListModel<T>, Serializable {
         listener.remove(l);
     }
 
-    public void update(int index, T o) {
+    public void update(int index, Movie o) {
         listItems.set(index, o);
         for (ListDataListener l : listener) {
             l.contentsChanged(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, index, index));
@@ -50,7 +47,7 @@ public class MyListModel<T> implements ListModel<T>, Serializable {
     }
 
     public void add(Movie o) {
-        listItems.add((T) o);
+        listItems.add( o);
         for (ListDataListener l : listener) {
             l.intervalAdded(new ListDataEvent(this, ListDataEvent.INTERVAL_ADDED, listItems.size() - 1, listItems.size() - 1));
         }

@@ -1,13 +1,11 @@
 package GUIProgram;
 
+import GUIProgram.GUIInlämning.Movie;
 import GUIProgram.GUIInlämning.MyListModel;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -25,7 +23,7 @@ public class GUIFormen extends JFrame {
     private JTextField textField4;
     private JLabel JLabel1;
     private JButton SearchButton;
-    private MyListModel<Movie> myListModel;
+    private MyListModel myListModel;
     private JMenuBar menuBar;
     private static JFrame frame;
     OutputStream fileOut;
