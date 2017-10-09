@@ -27,8 +27,8 @@ public class FilteredListModel extends MyListModel {
 
 
     @Override
-    public void add(Movie o) {
-        super.add(o);
+    public void add(Movie m) {
+        super.add(m);
     }
 
     @Override

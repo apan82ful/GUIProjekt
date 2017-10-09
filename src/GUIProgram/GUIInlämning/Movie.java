@@ -42,7 +42,7 @@ public class Movie implements ActionListener, Serializable {
 
     @Override
     public String toString() {
-        return  "MovieEj: " + getMovie() +
+        return  "Movie: " + getMovie() +
                 " Genre: " + getGenre() +
                 " Year: " + getYear();
     }

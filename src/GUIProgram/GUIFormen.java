@@ -1,7 +1,6 @@
 package GUIProgram;
 
-import GUIProgram.GUIInlämning.Movie;
-import GUIProgram.GUIInlämning.MyListModel;
+import GUIProgram.GUIInlämning.*;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -22,6 +21,8 @@ public class GUIFormen extends JFrame {
     private JButton searchMovieButton;
     private JTextField textField4;
     private JLabel JLabel1;
+    private JCheckBox startsWithCheckBox;
+    private JCheckBox endsWithCheckBox;
     private JButton SearchButton;
     private MyListModel myListModel;
     private JMenuBar menuBar;
@@ -29,7 +30,7 @@ public class GUIFormen extends JFrame {
     OutputStream fileOut;
 
 //
-    public GUIFormen() {
+    public GUIFormen(IMyListModel listModel) {
 
         menuBar = new JMenuBar();
         frame.setJMenuBar(menuBar);
@@ -86,7 +87,7 @@ public class GUIFormen extends JFrame {
             }
         });
 
-        myListModel = new MyListModel<>();
+        myListModel = new MyListModel();
         list1.setModel(myListModel);
         list1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -202,6 +203,21 @@ public class GUIFormen extends JFrame {
 
         });
 
+        textField4.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if( textField4.getText().isEmpty())
+                    myListModel.filter(new ShowAll());
+                else if(startsWithCheckBox.isSelected() && endsWithCheckBox.isSelected())
+                    myListModel.filter(new CombinedOr(new StartsWith(textField4.getText()),new EndsWith(textField4.getText())));
+                else if( startsWithCheckBox.isSelected())
+                    myListModel.filter(new StartsWith(textField4.getText()));
+                else if( endsWithCheckBox.isSelected())
+                    myListModel.filter(new EndsWith(textField4.getText()));
+                else
+                    myListModel.filter(new Contains(textField4.getText()));
+            }
+        });
     }
 
     private void loadFile() {
@@ -215,7 +231,7 @@ public class GUIFormen extends JFrame {
 
                     ObjectInputStream in = new ObjectInputStream(fileIn);
 
-                    myListModel = (MyListModel<Movie>) in.readObject();
+                    myListModel = (MyListModel ) in.readObject();
                     //invoke later
                     list1.setModel(myListModel);
 
@@ -285,7 +301,8 @@ public class GUIFormen extends JFrame {
 
         EventQueue.invokeLater(() -> {
             frame = new JFrame("GUIFormen");
-            frame.setContentPane(new GUIFormen().panel1);
+            GUIFormen formen = new GUIFormen(Factory.createListModel());
+            frame.setContentPane(formen.panel1);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(new Dimension(800, 600));
             frame.setVisible(true);

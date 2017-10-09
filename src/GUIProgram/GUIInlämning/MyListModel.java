@@ -53,6 +53,16 @@ public class MyListModel implements IMyListModel, Serializable {
         }
     }
 
+    //@Override
+    //public void update(int index, Movie movie) {
+
+    //}
+
+    //@Override
+    //public void add(String text) {
+//
+  //  }
+
     public void remove(int index) {
         listItems.remove(index);
         for (ListDataListener l : listener) {
@@ -68,6 +78,8 @@ public class MyListModel implements IMyListModel, Serializable {
         }
     }
 
+    @Override
+    public void filter(FilterStrategy strategy) {
 
-
+    }
 }
