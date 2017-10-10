@@ -24,7 +24,7 @@ public class GUIFormen extends JFrame {
     private JCheckBox startsWithCheckBox;
     private JCheckBox endsWithCheckBox;
     private JButton SearchButton;
-    private MyListModel myListModel;
+    private IMyListModel myListModel;
     private JMenuBar menuBar;
     private static JFrame frame;
     OutputStream fileOut;
@@ -70,15 +70,6 @@ public class GUIFormen extends JFrame {
         JMenuItem exit = new JMenuItem("Exit");
         menu.add(exit);
 
-        // Metodreferens
-//        exit.addActionListener(this::quitProgram);
-
-        // Lambda
-/*        exit.addActionListener(e -> {
-            System.exit(0);
-        });
-*/
-
         // Anonym klass
         exit.addActionListener(new ActionListener() {
             @Override
@@ -87,18 +78,25 @@ public class GUIFormen extends JFrame {
             }
         });
 
-        myListModel = new MyListModel();
+        //myListModel = new MyListModel();
+
+        myListModel = listModel;
+
         list1.setModel(myListModel);
         list1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         läggtill.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                Movie movie = new Movie(textField1.getText(), textField2.getText()
-                        , Integer.parseInt(textField3.getText()));
-                myListModel.add(movie);
-
+                try {
+                    Movie movie = new Movie(textField1.getText(), textField2.getText()
+                            , Integer.parseInt(textField3.getText()));
+                    myListModel.add(movie);
+                    JLabel1.setText("");
+                }catch (NumberFormatException ex){
+                    JLabel1.setText("You must type the year as a number! ");
+                    textField3.setText("");
+                }
 
             }
         });
