@@ -18,12 +18,12 @@ public class GUIFormen extends JFrame {
     private JTextField textField2;
     private JList<Movie> list1;
     private JTextField textField3;
-    private JButton searchMovieButton;
+    //private JButton searchMovieButton;
     private JTextField textField4;
     private JLabel JLabel1;
     private JCheckBox startsWithCheckBox;
     private JCheckBox endsWithCheckBox;
-    private JButton SearchButton;
+    //private JButton SearchButton;
     private IMyListModel myListModel;
     private JMenuBar menuBar;
     private static JFrame frame;
@@ -42,8 +42,7 @@ public class GUIFormen extends JFrame {
         JMenuItem save = new JMenuItem("Save");
         menu.add(save);
         save.getAccessibleContext().setAccessibleDescription("Save to file");
-        save.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_S, ActionEvent.CTRL_MASK));
+        save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
         menu.add(save);
 
         //save.addActionListener(e -> saveFile());
@@ -57,6 +56,7 @@ public class GUIFormen extends JFrame {
         JMenuItem load = new JMenuItem("Load");
         menu.add(load);
         load.getAccessibleContext().setAccessibleDescription("Load to file");
+        load.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
         menu.add(load);
 
         load.addActionListener(new ActionListener() {
@@ -215,15 +215,20 @@ public class GUIFormen extends JFrame {
 
     private void doFilter() {
         if (textField4.getText().isEmpty())
-            myListModel.filter(new ShowAll());
+            //myListModel.filter(new ShowAll());
+            myListModel.filter(Factory.createShowAll());
         else if (startsWithCheckBox.isSelected() && endsWithCheckBox.isSelected())
-            myListModel.filter(new CombinedOr(new StartsWith(textField4.getText()), new EndsWith(textField4.getText())));
+            //myListModel.filter(new CombinedOr(new StartsWith(textField4.getText()), new EndsWith(textField4.getText())));
+            myListModel.filter(Factory.createCombinedOr(Factory.createStartsWith(textField4.getText()), Factory.createEndsWith(textField4.getText())));
         else if (startsWithCheckBox.isSelected())
-            myListModel.filter(new StartsWith(textField4.getText()));
+            //myListModel.filter(new StartsWith(textField4.getText()));
+            myListModel.filter(Factory.createStartsWith(textField4.getText()));
         else if (endsWithCheckBox.isSelected())
-            myListModel.filter(new EndsWith(textField4.getText()));
+            //myListModel.filter(new EndsWith(textField4.getText()));
+            myListModel.filter(Factory.createEndsWith(textField4.getText()));
         else
-            myListModel.filter(new Contains(textField4.getText()));
+            //myListModel.filter(new Contains(textField4.getText()));
+            myListModel.filter(Factory.createContains(textField4.getText()));
     }
 
     private void loadFile() {
