@@ -29,7 +29,7 @@ public class GUIFormen extends JFrame {
     private static JFrame frame;
     OutputStream fileOut;
 
-//
+    //
     public GUIFormen(IMyListModel listModel) {
 
         menuBar = new JMenuBar();
@@ -93,7 +93,7 @@ public class GUIFormen extends JFrame {
                             , Integer.parseInt(textField3.getText()));
                     myListModel.add(movie);
                     JLabel1.setText("");
-                }catch (NumberFormatException ex){
+                } catch (NumberFormatException ex) {
                     JLabel1.setText("You must type the year as a number! ");
                     textField3.setText("");
                 }
@@ -168,14 +168,14 @@ public class GUIFormen extends JFrame {
             }
         });
 
-        searchMovieButton.addActionListener(new ActionListener() {
+/*        searchMovieButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 JLabel1.setText("You search for: " + textField4.getText());
             }
         });
-
+*/
         textField4.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -204,18 +204,26 @@ public class GUIFormen extends JFrame {
         textField4.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                if( textField4.getText().isEmpty())
-                    myListModel.filter(new ShowAll());
-                else if(startsWithCheckBox.isSelected() && endsWithCheckBox.isSelected())
-                    myListModel.filter(new CombinedOr(new StartsWith(textField4.getText()),new EndsWith(textField4.getText())));
-                else if( startsWithCheckBox.isSelected())
-                    myListModel.filter(new StartsWith(textField4.getText()));
-                else if( endsWithCheckBox.isSelected())
-                    myListModel.filter(new EndsWith(textField4.getText()));
-                else
-                    myListModel.filter(new Contains(textField4.getText()));
+                doFilter();
             }
         });
+
+        startsWithCheckBox.addActionListener(e -> doFilter());
+        endsWithCheckBox.addActionListener(e -> doFilter());
+
+    }
+
+    private void doFilter() {
+        if (textField4.getText().isEmpty())
+            myListModel.filter(new ShowAll());
+        else if (startsWithCheckBox.isSelected() && endsWithCheckBox.isSelected())
+            myListModel.filter(new CombinedOr(new StartsWith(textField4.getText()), new EndsWith(textField4.getText())));
+        else if (startsWithCheckBox.isSelected())
+            myListModel.filter(new StartsWith(textField4.getText()));
+        else if (endsWithCheckBox.isSelected())
+            myListModel.filter(new EndsWith(textField4.getText()));
+        else
+            myListModel.filter(new Contains(textField4.getText()));
     }
 
     private void loadFile() {
@@ -229,7 +237,7 @@ public class GUIFormen extends JFrame {
 
                     ObjectInputStream in = new ObjectInputStream(fileIn);
 
-                    myListModel = (MyListModel ) in.readObject();
+                    myListModel = (MyListModel) in.readObject();
                     //invoke later
                     list1.setModel(myListModel);
 
@@ -292,7 +300,6 @@ public class GUIFormen extends JFrame {
         }
 
     }
-
 
 
     public static void main(String[] args) {
