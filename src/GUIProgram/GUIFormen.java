@@ -114,13 +114,23 @@ public class GUIFormen extends JFrame {
         ändraButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String name = textField1.getText();
-                String genre = textField2.getText();
-                int year = Integer.parseInt(textField3.getText());
+                String name = textField1.getText().trim();
+                String genre = textField2.getText().trim();
+                String yearString = textField3.getText().trim();
                 Movie m = list1.getSelectedValue();
-                m.setName(name);
-                m.setGenre(genre);
-                m.setYear(year);
+                if (!name.isEmpty())
+                    m.setName(name);
+                if (!genre.isEmpty())
+                    m.setGenre(genre);
+                if(!yearString.isEmpty()) {
+                    try {
+                        m.setYear(Integer.parseInt(yearString));
+                        JLabel1.setText("");
+                    } catch (NumberFormatException ex) {
+                        JLabel1.setText("You must type the year as a number! ");
+                        textField3.setText("");
+                    }
+                }
                 list1.repaint();
 
             }
@@ -133,8 +143,11 @@ public class GUIFormen extends JFrame {
                 if (e.getValueIsAdjusting() == false) {
                     if (list1.getSelectedIndex() == -1) {
                         taBortButton.setEnabled(false);
-                    } else
+                        ändraButton.setEnabled(false);
+                    } else {
                         taBortButton.setEnabled(true);
+                        ändraButton.setEnabled(true);
+                    }
                 }
 
             }
@@ -158,7 +171,7 @@ public class GUIFormen extends JFrame {
                 keyEnable();
             }
         });
-
+/*
         list1.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -170,7 +183,7 @@ public class GUIFormen extends JFrame {
                 }
             }
         });
-
+*/
 /*        searchMovieButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -250,6 +263,7 @@ public class GUIFormen extends JFrame {
                     myListModel = (MyListModel) in.readObject();
                     //invoke later
                     list1.setModel(myListModel);
+                    myListModel.filter(Factory.createShowAll());
 
                     in.close();
                     fileIn.close();
