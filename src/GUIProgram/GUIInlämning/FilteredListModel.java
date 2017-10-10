@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class FilteredListModel extends MyListModel {
 
     ArrayList<Movie> model = new ArrayList<>();
-    FilterStrategy filter = new ShowAll();
+    transient FilterStrategy filter = new ShowAll();
     transient ArrayList<ListDataListener> listener = new ArrayList<>();
 
 

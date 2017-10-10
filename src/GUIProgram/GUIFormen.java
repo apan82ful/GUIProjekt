@@ -43,7 +43,7 @@ public class GUIFormen extends JFrame {
         menu.add(save);
         save.getAccessibleContext().setAccessibleDescription("Save to file");
         save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
-        menu.add(save);
+        //menu.add(save);
 
         //save.addActionListener(e -> saveFile());
         save.addActionListener(new ActionListener() {
@@ -57,7 +57,7 @@ public class GUIFormen extends JFrame {
         menu.add(load);
         load.getAccessibleContext().setAccessibleDescription("Load to file");
         load.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
-        menu.add(load);
+        //menu.add(load);
 
         load.addActionListener(new ActionListener() {
             @Override
@@ -69,6 +69,9 @@ public class GUIFormen extends JFrame {
 
         JMenuItem exit = new JMenuItem("Exit");
         menu.add(exit);
+        exit.getAccessibleContext().setAccessibleDescription("Exit program");
+        exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
+        //menu.add(exit);
 
         // Anonym klass
         exit.addActionListener(new ActionListener() {
@@ -176,6 +179,8 @@ public class GUIFormen extends JFrame {
             }
         });
 */
+
+/*
         textField4.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -184,7 +189,7 @@ public class GUIFormen extends JFrame {
                 }
             }
         });
-
+*/
 
         textField4.addKeyListener(new KeyAdapter() {
             private int fieldLength = 0;
@@ -282,7 +287,7 @@ public class GUIFormen extends JFrame {
 
                     out.close();
                     fileOut.close();
-                    System.out.printf("Serialized data is saved in " + fileOut);
+                    System.out.println("Serialized data is saved in " + fileOut);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
