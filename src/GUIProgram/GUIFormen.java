@@ -117,23 +117,6 @@ public class GUIFormen extends JFrame {
                 String name = textField1.getText().trim();
                 String genre = textField2.getText().trim();
                 String yearString = textField3.getText().trim();
-/*                Movie m = list1.getSelectedValue();
-                if (!name.isEmpty())
-                    m.setName(name);
-                if (!genre.isEmpty())
-                    m.setGenre(genre);
-                if(!yearString.isEmpty()) {
-                    try {
-                        m.setYear(Integer.parseInt(yearString));
-                        JLabel1.setText("");
-                    } catch (NumberFormatException ex) {
-                        JLabel1.setText("You must type the year as a number! ");
-                        textField3.setText("");
-                    }
-                }
-                //list1.repaint();*/
-                //Använd uppdate från mylistmodel.
-
                 try {
                     Movie movie = Factory.createMovie(name, genre, yearString);
                     myListModel.update(list1.getSelectedIndex(), movie);
@@ -183,38 +166,7 @@ public class GUIFormen extends JFrame {
                 keyEnable();
             }
         });
-/*
-        list1.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (e.getValueIsAdjusting() == false) {
-                    if (list1.getSelectedIndex() == -1) {
-                        ändraButton.setEnabled(false);
-                    } else
-                        ändraButton.setEnabled(true);
-                }
-            }
-        });
-*/
-/*        searchMovieButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
-                JLabel1.setText("You search for: " + textField4.getText());
-            }
-        });
-*/
-
-/*
-        textField4.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    JLabel1.setText("You search for: " + textField4.getText());
-                }
-            }
-        });
-*/
 
         textField4.addKeyListener(new KeyAdapter() {
             private int fieldLength = 0;
@@ -235,36 +187,12 @@ public class GUIFormen extends JFrame {
             @Override
             public void keyReleased(KeyEvent e) {
                 myListModel.filter(Factory.createFilter(textField4.getText(),startsWithCheckBox.isSelected(),endsWithCheckBox.isSelected()));
-                //doFilter();
+
             }
         });
 
-        //startsWithCheckBox.addActionListener(e -> doFilter());
-        //endsWithCheckBox.addActionListener(e -> doFilter());
-
     }
 
-    /*private void doFilter() {
-
-        myListModel.filter(Factory.createFilter(textField4.));
-
-
-        if (textField4.getText().isEmpty())
-            //myListModel.filter(new ShowAll());
-            myListModel.filter(Factory.createShowAll());
-        else if (startsWithCheckBox.isSelected() && endsWithCheckBox.isSelected())
-            //myListModel.filter(new CombinedOr(new StartsWith(textField4.getText()), new EndsWith(textField4.getText())));
-            myListModel.filter(Factory.createCombinedOr(Factory.createStartsWith(textField4.getText()), Factory.createEndsWith(textField4.getText())));
-        else if (startsWithCheckBox.isSelected())
-            //myListModel.filter(new StartsWith(textField4.getText()));
-            myListModel.filter(Factory.createStartsWith(textField4.getText()));
-        else if (endsWithCheckBox.isSelected())
-            //myListModel.filter(new EndsWith(textField4.getText()));
-            myListModel.filter(Factory.createEndsWith(textField4.getText()));
-        else
-            //myListModel.filter(new Contains(textField4.getText()));
-            myListModel.filter(Factory.createContains(textField4.getText()));
-    }*/
 
     private void loadFile() {
         JFileChooser fc = new JFileChooser();
