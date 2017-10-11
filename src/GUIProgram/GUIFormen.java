@@ -234,16 +234,21 @@ public class GUIFormen extends JFrame {
         textField4.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                doFilter();
+                myListModel.filter(Factory.createFilter(textField4.getText(),startsWithCheckBox.isSelected(),endsWithCheckBox.isSelected()));
+                //doFilter();
             }
         });
 
-        startsWithCheckBox.addActionListener(e -> doFilter());
-        endsWithCheckBox.addActionListener(e -> doFilter());
+        //startsWithCheckBox.addActionListener(e -> doFilter());
+        //endsWithCheckBox.addActionListener(e -> doFilter());
 
     }
 
-    private void doFilter() {
+    /*private void doFilter() {
+
+        myListModel.filter(Factory.createFilter(textField4.));
+
+
         if (textField4.getText().isEmpty())
             //myListModel.filter(new ShowAll());
             myListModel.filter(Factory.createShowAll());
@@ -259,7 +264,7 @@ public class GUIFormen extends JFrame {
         else
             //myListModel.filter(new Contains(textField4.getText()));
             myListModel.filter(Factory.createContains(textField4.getText()));
-    }
+    }*/
 
     private void loadFile() {
         JFileChooser fc = new JFileChooser();

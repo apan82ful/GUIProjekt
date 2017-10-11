@@ -12,19 +12,19 @@ public class Factory {
         return new ShowAll();
     }
 
-    public static CombinedOr createCombinedOr(FilterStrategy f1, FilterStrategy f2){
+    public static FilterStrategy createCombinedOr(FilterStrategy f1, FilterStrategy f2){
         return new CombinedOr(f1, f2);
     }
 
-    public static StartsWith createStartsWith(String s){
+    public static FilterStrategy createStartsWith(String s){
         return new StartsWith(s);
     }
 
-    public static EndsWith createEndsWith(String s){
+    public static FilterStrategy createEndsWith(String s){
         return new EndsWith(s);
     }
 
-    public static Contains createContains(String s){
+    public static FilterStrategy createContains(String s){
         return new Contains(s);
     }
 
@@ -40,4 +40,22 @@ public class Factory {
 
         return new Movie(name,genre,Integer.parseInt(yearString));
     }
+    public static FilterStrategy createFilter(String text, boolean startsWith, boolean endsWith){
+        if (text.isEmpty())
+            return createShowAll();
+        else if (startsWith && endsWith)
+            return createCombinedOr(createStartsWith(text),createEndsWith(text));
+
+        else if (startsWith)
+            return createStartsWith(text);
+
+        else if (endsWith)
+            return createEndsWith(text);
+
+        else
+            return createContains(text);
+
+    }
+
+
 }
