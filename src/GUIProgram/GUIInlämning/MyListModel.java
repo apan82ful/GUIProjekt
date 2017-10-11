@@ -39,12 +39,21 @@ public class MyListModel implements IMyListModel, Serializable {
         listener.remove(l);
     }
 
-    public void update(int index, Movie o) {
+    /*public void update(int index, Movie o) {
         listItems.set(index, o);
         for (ListDataListener l : listener) {
             l.contentsChanged(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, index, index));
         }
+    }*/
+
+    public void update(int index, Movie m) {
+        listItems.set(index, m);
+        for (ListDataListener l : listener) {
+            l.contentsChanged(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED,index,index ));
+        }
     }
+
+
 
     public void add(Movie o) {
         listItems.add( o);

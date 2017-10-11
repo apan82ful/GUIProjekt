@@ -117,7 +117,7 @@ public class GUIFormen extends JFrame {
                 String name = textField1.getText().trim();
                 String genre = textField2.getText().trim();
                 String yearString = textField3.getText().trim();
-                Movie m = list1.getSelectedValue();
+/*                Movie m = list1.getSelectedValue();
                 if (!name.isEmpty())
                     m.setName(name);
                 if (!genre.isEmpty())
@@ -131,7 +131,19 @@ public class GUIFormen extends JFrame {
                         textField3.setText("");
                     }
                 }
-                list1.repaint();
+                //list1.repaint();*/
+                //Använd uppdate från mylistmodel.
+
+                try {
+                    Movie movie = Factory.createMovie(name, genre, yearString);
+                    myListModel.update(list1.getSelectedIndex(), movie);
+                }catch (NumberFormatException e1){
+                    System.out.println("Must type nr");
+
+                }catch (IllegalArgumentException e1){
+                    System.out.println("Empty field");
+                }
+
 
             }
         });

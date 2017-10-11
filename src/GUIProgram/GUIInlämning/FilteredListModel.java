@@ -45,5 +45,9 @@ public class FilteredListModel extends MyListModel {
         filter(filter);
     }
 
-
+    @Override
+    public void update(int index, Movie m) {
+        model.set(index, m);
+        filter(filter);
+    }
 }

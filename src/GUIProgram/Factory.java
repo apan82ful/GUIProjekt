@@ -1,9 +1,6 @@
 package GUIProgram;
 
-import GUIProgram.GUIInlämning.FilterStrategy;
-import GUIProgram.GUIInlämning.FilteredListModel;
-import GUIProgram.GUIInlämning.IMyListModel;
-import GUIProgram.GUIInlämning.ShowAll;
+import GUIProgram.GUIInlämning.*;
 
 public class Factory {
 
@@ -11,7 +8,7 @@ public class Factory {
         return new FilteredListModel();
     }
 
-    public static ShowAll createShowAll(){
+    public static FilterStrategy createShowAll(){
         return new ShowAll();
     }
 
@@ -32,4 +29,15 @@ public class Factory {
     }
 
 
+    public static Movie createMovie(String name, String genre, String yearString) throws IllegalArgumentException, NumberFormatException{
+
+        if (name.isEmpty())
+            throw new IllegalArgumentException("Name is empty");
+        if (genre.isEmpty())
+            throw new IllegalArgumentException("genre is empty");
+        if(yearString.isEmpty())
+            throw new IllegalArgumentException("Year is empty");
+
+        return new Movie(name,genre,Integer.parseInt(yearString));
+    }
 }
